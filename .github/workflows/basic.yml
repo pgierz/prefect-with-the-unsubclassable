@@ -1,0 +1,14 @@
+name: "Basic Examples"
+on: [push, pull_request]
+jobs:
+  run-examples:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v4
+      - run: |
+          pip install .
+      - run: |
+          python examples/basic.py
+      - run: |
+          python examples/bool_unsubclassable.py
