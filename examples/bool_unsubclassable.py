@@ -4,7 +4,15 @@ from prefect import flow, task
 class BooleanWithProvenance:
     def __init__(self, value, provenance):
         self.value = value
-        self.provenance = provenance
+        self._provenance = provenance
+
+    @property
+    def provenance(self):
+        return self._provenance
+
+    @provenance.setter
+    def provenance(self, value):
+        self._provenance = value
 
     def __bool__(self):
         return bool(self.value)
@@ -13,7 +21,7 @@ class BooleanWithProvenance:
         return f"BooleanWithProvenance({self.value}, {self.provenance})"
 
     def __eq__(self, other):
-        if isinstance(other, BoolWithProvenance):
+        if isinstance(other, self.__class__):
             return self.value == other.value
 
         return self.value == other
